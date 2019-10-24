@@ -1,0 +1,259 @@
+﻿<fw:AcrylicWindow x:Class="MainWindow"
+                  xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                  xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" xmlns:local="clr-namespace:SteamAPNG" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+                  Title="APNG Generator"
+                  Width="980" Height="700" MinWidth="980" MinHeight="700"
+                  MaxWidth="980" MaxHeight="700"
+                  fw:AcrylicWindow.ExtendViewIntoTitleBar="True" fw:PointerTracker.Enabled="True" AcrylicWindowStyle="NoIcon" Background="#24292E"
+                  BorderThickness="0" FallbackColor="#24292E" Icon="SteamAPNG.ico" Loaded="Window_Loaded"
+                  NoiseOpacity="0.00" TintColor="#24292E" TintOpacity="0.92"
+                  mc:Ignorable="d">
+    <Window.Resources>
+        <local:BoolToScaleInvConverter x:Key="BoolToInv" />
+        <local:BoolToRot180Converter x:Key="BoolTo180" />
+        <local:multiConv x:Key="multiconv" />
+
+    </Window.Resources>
+    <Grid Margin="40,40,40,5">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="520" />
+            <RowDefinition Height="100" />
+            <RowDefinition />
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="300" />
+            <ColumnDefinition Width="240" />
+            <ColumnDefinition />
+        </Grid.ColumnDefinitions>
+        <TextBlock Margin="0,-15,0,0"
+                   FontFamily="Segoe UI Light" FontSize="24" Foreground="White" Text="Steam APNG Generator" />
+        <StackPanel Grid.Column="0" Margin="0,30,0,0">
+            <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Preview</Label>
+            <Viewbox>
+                <Grid x:Name="previewBox"
+                      Width="600" Height="900" MinWidth="600" MinHeight="900"
+                      MaxWidth="600" MaxHeight="900"
+                      HorizontalAlignment="Right"
+                      Background="#34393E" ClipToBounds="True">
+                    <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#FFDEDEDE">Click to choose image</Label>
+
+                    <Image x:Name="imgbox1"
+                           HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="5"
+                           Opacity="{Binding ElementName=opacity, Path=Value, UpdateSourceTrigger=PropertyChanged}"
+                           RenderTransformOrigin="0.5,0.5" StretchDirection="DownOnly">
+                        <Image.RenderTransform>
+                            <TransformGroup>
+                                <ScaleTransform ScaleX="{Binding ElementName=scalex, Path=Value, UpdateSourceTrigger=PropertyChanged}" ScaleY="{Binding ElementName=scaley, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                                <SkewTransform />
+                                <RotateTransform Angle="{Binding ElementName=rotate, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                                <TranslateTransform X="{Binding ElementName=positionH, Path=Value, UpdateSourceTrigger=PropertyChanged}" Y="{Binding ElementName=positionV, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                            </TransformGroup>
+                        </Image.RenderTransform>
+                    </Image>
+                    <Image x:Name="bgImg" Width="600" Height="900" />
+                </Grid>
+            </Viewbox>
+
+        </StackPanel>
+        <StackPanel Grid.Column="1" Margin="15,30,0,0" HorizontalAlignment="Left">
+            <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Choose Effect</Label>
+            <ListBox x:Name="FXItems"
+                     Width="210" Height="452"
+                     Margin="0,-1,0,0" Padding="0" Panel.ZIndex="4"
+                     Background="#34393E" BorderBrush="Transparent" FontSize="14" Foreground="#FFDEDEDE" />
+        </StackPanel>
+        <StackPanel x:Name="EffectOptionsBox"
+                    Grid.Column="2"
+                    Width="310"
+                    Margin="20,30,0,0" HorizontalAlignment="Left">
+
+            <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Transform Effect</Label>
+
+            <DockPanel Width="280" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Label Width="70" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FFDEDEDE">Offset X</Label>
+                <TextBox Width="50"
+                         Margin="5,0,0,0" Padding="0,2,0,0"
+                         Background="#34393E" BorderBrush="Transparent" BorderThickness="1" DockPanel.Dock="Right"
+                         Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="{Binding ElementName=positionH, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                <Slider x:Name="positionH"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="1000" Minimum="-1000"
+                        TickFrequency="10"
+                        Value="0" />
+            </DockPanel>
+
+
+            <DockPanel Width="280" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Label Width="70" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FFDEDEDE">Offset Y</Label>
+                <TextBox Width="50"
+                         Margin="5,0,0,0" Padding="0,2,0,0"
+                         Background="#FF34393E" BorderBrush="Transparent" BorderThickness="1" DockPanel.Dock="Right"
+                         Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="{Binding ElementName=positionV, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                <Slider x:Name="positionV"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="1000" Minimum="-1000"
+                        TickFrequency="10"
+                        Value="0" />
+            </DockPanel>
+
+            <DockPanel Width="280" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Label Width="70" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FFDEDEDE">Scale X</Label>
+                <TextBox Width="50"
+                         Margin="5,0,0,0" Padding="0,2,0,0"
+                         Background="#FF34393E" BorderBrush="Transparent" BorderThickness="1" DockPanel.Dock="Right"
+                         Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="{Binding ElementName=scalex, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                <Slider x:Name="scalex"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="10" Minimum="-8"
+                        TickFrequency="0.1"
+                        Value="1" />
+            </DockPanel>
+
+            <DockPanel Width="280" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Label Width="70" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FFDEDEDE">Scale Y</Label>
+                <TextBox Width="50"
+                         Margin="5,0,0,0" Padding="0,2,0,0"
+                         Background="#FF34393E" BorderBrush="Transparent" BorderThickness="1" DockPanel.Dock="Right"
+                         Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="{Binding ElementName=scaley, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat=N2}" />
+                <Slider x:Name="scaley"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="10" Minimum="-8"
+                        TickFrequency="0.05"
+                        Value="1" />
+            </DockPanel>
+
+            <DockPanel Width="280" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Label Width="70" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FFDEDEDE">Rotate</Label>
+                <TextBox Width="50"
+                         Margin="5,0,0,0" Padding="0,2,0,0"
+                         Background="#FF34393E" BorderBrush="Transparent" BorderThickness="1" DockPanel.Dock="Right"
+                         Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="{Binding ElementName=rotate, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                <Slider x:Name="rotate"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="180" Minimum="-180"
+                        TickFrequency="5"
+                        Value="0" />
+            </DockPanel>
+
+            <DockPanel Width="280" Margin="0,5" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Label Width="70" FontFamily="Segoe UI Semibold" FontSize="12" Foreground="#FFDEDEDE">Opacity</Label>
+                <TextBox Width="50"
+                         Margin="5,0,0,0" Padding="0,2,0,0"
+                         Background="#FF34393E" BorderBrush="Transparent" BorderThickness="1" DockPanel.Dock="Right"
+                         Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="{Binding ElementName=opacity, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
+                <Slider x:Name="opacity"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="1" Minimum="0"
+                        TickFrequency="0.1"
+                        Value="1" />
+            </DockPanel>
+
+            <Button x:Name="resetTransforms"
+                    Width="100" Height="30"
+                    Margin="0,10,30,0" HorizontalAlignment="Right"
+                    DockPanel.Dock="Right" Foreground="#FFFFFF"
+                    Style="{StaticResource ButtonRevealStyle}">
+                Reset
+            </Button>
+
+            <Rectangle Height="1" Margin="0,10" Fill="#80C7C7C7" />
+
+            <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Output Size</Label>
+            <Grid Margin="5,0,100,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="Rd300" Foreground="#FFDEDEDE" IsChecked="True">300 x 450</RadioButton>
+                <RadioButton x:Name="Rd600" Grid.Column="1" Foreground="#FFDEDEDE">600 x 900</RadioButton>
+            </Grid>
+            <Rectangle Height="1" Margin="0,5" Fill="#00C7C7C7" />
+            <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Output Quality</Label>
+            <Grid Margin="5,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                    <ColumnDefinition />
+                </Grid.ColumnDefinitions>
+                <RadioButton x:Name="RdLowQual" Foreground="#FFDEDEDE">Good</RadioButton>
+                <RadioButton x:Name="RdMedQual" Grid.Column="1" Foreground="#FFDEDEDE">High</RadioButton>
+                <RadioButton x:Name="RdHighQual" Grid.Column="2" Foreground="#FFDEDEDE" IsChecked="True">Best</RadioButton>
+            </Grid>
+            <Rectangle Height="1" Margin="0,5" Fill="#00C7C7C7" />
+            <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Output Framerate</Label>
+            <DockPanel Grid.Row="1" Grid.Column="0"
+                       Width="280"
+                       Margin="5,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+
+
+                <TextBlock Width="50"
+                           HorizontalAlignment="Right" VerticalAlignment="Center"
+                           DockPanel.Dock="Right" Foreground="#FFDEDEDE"
+                           Text="{Binding ElementName=inputFPS, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} FPS}"
+                           TextAlignment="Right" />
+                <Slider x:Name="inputFPS"
+                        VerticalAlignment="Center"
+                        Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="60" Minimum="10"
+                        TickFrequency="10"
+                        Value="30" />
+            </DockPanel>
+
+        </StackPanel>
+        <Rectangle Grid.Row="1" Grid.ColumnSpan="3"
+                   Height="1"
+                   Margin="0,10" VerticalAlignment="Top"
+                   Fill="#FFC7C7C7" />
+
+        <StackPanel x:Name="SaveOptionsBox"
+                    Grid.Row="1" Grid.Column="0" Grid.ColumnSpan="2"
+                    Margin="0,15,0,0">
+            <Label Margin="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Save Location</Label>
+            <DockPanel Width="520" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                <Button x:Name="outputPathButton"
+                        Width="85" Height="35"
+                        Margin="-87,0,0,0" Panel.ZIndex="1"
+                        Background="Transparent" DockPanel.Dock="Right" Foreground="#D2D2D2"
+                        Style="{StaticResource ButtonRevealStyle}">
+                    Browse...
+                </Button>
+                <TextBox x:Name="outputPathBox"
+                         Height="35"
+                         Padding="5,0,90,0" VerticalContentAlignment="Center"
+                         Background="#34393E" BorderBrush="Transparent" Foreground="#FFDEDEDE"
+                         Style="{StaticResource TextBoxRevealStyle}"
+                         Text="" />
+            </DockPanel>
+        </StackPanel>
+        <Button x:Name="SaveBTN"
+                Grid.Row="1" Grid.Column="2"
+                Width="210" Height="40"
+                Margin="0,50,0,0" HorizontalAlignment="Right" VerticalAlignment="Top"
+                Click="SaveBTN_Click" Foreground="White"
+                Style="{StaticResource ButtonRevealStyle}">
+            Save
+        </Button>
+
+        <TextBlock x:Name="statusLbl"
+                   Grid.Row="2"
+                   Margin="10,0,0,10" HorizontalAlignment="Left" VerticalAlignment="Bottom"
+                   Foreground="#FFDEDEDE">
+            Status: Idle
+        </TextBlock>
+        <Image x:Name="TestingGround"
+               Grid.Column="2"
+               Width="318" Height="451"
+               Margin="502,59,0,0" HorizontalAlignment="Left" VerticalAlignment="Top" />
+    </Grid>
+</fw:AcrylicWindow>
