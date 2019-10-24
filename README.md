@@ -42,9 +42,17 @@
     - Slow rendering speed
     - Reasonably small file sizes, often between `Good` and `High`
 
+## Postprocessing
+
+### Reducing Filesize.
+Do the following in order: 
+1. Compress with [TinyPNG](https://tinypng.com/). If your file is larger than the 5MB threshold, use their API to do it (You can compress 500 images free per month) 
+2. Optimize with [APNG Optimizer](https://sourceforge.net/projects/apng/files/APNG_Optimizer/) using either `7ZIP` or `Zopfli` compression. 
+
 ## Examples
 
-| ![](https://i.imgur.com/P29a8G3.png) |![](https://i.imgur.com/BajNQ9H.png)  |![](https://i.imgur.com/OrSkURG.png)|
-|:--:|:--:|:--:|
-| Good: 1.9MB | High: 825KB | Best: 3.88MB|
+| ![](https://i.imgur.com/P29a8G3.png) |![](https://i.imgur.com/BajNQ9H.png)  |![](https://i.imgur.com/OrSkURG.png)|![](Effects/Examples/Wisps.png)|
+|:--:|:--:|:--:|:--:|
+| Good: 1.9MB | High: 825KB | Best: 3.88MB|Post-Optimized High: 588KB|
 
+### See [here](Effects/Examples) for examples of all the built-in effects. 
