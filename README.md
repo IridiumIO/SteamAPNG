@@ -1,5 +1,8 @@
-# SteamAPNG
-Generate APNG Images for Steam Game Covers.
+<p align="center"><img src="Media/Banner.svg" height="250"></p>
+
+<p align="center"><b>Generate APNG Images for Steam Game Covers.</b></p>
+
+-----
 
 ## Prerequisites
 - .NET Framework 4.7.2 (Included with Windows 10 1803+ by default)
@@ -41,5 +44,7 @@ Generate APNG Images for Steam Game Covers.
 
 ## Examples
 
+| ![](https://i.imgur.com/P29a8G3.png) |![](https://i.imgur.com/BajNQ9H.png)  |![](https://i.imgur.com/OrSkURG.png)|
+|:--:|:--:|:--:|
+| Good: 1.9MB | High: 825KB | Best: 3.88MB|
 
-![](https://i.imgur.com/DerM9Fy.png)
