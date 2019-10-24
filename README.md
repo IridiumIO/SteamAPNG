@@ -6,7 +6,7 @@
 
 ## Prerequisites
 - .NET Framework 4.7.2 (Included with Windows 10 1803+ by default)
-- [FFMPEG](https://www.ffmpeg.org/) - Needs to be installed and [added to your PATH Environment Variable](https://www.thewindowsclub.com/how-to-install-ffmpeg-on-windows-10). 
+- [FFMPEG](https://www.ffmpeg.org/) - Needs to be installed and [added to your PATH Environment Variable](https://www.thewindowsclub.com/how-to-install-ffmpeg-on-windows-10), or place `ffmpeg.exe` in the same folder as `SteamAPNG.exe`
 ## Installation
 - Download the [latest release](https://github.com/IridiumIO/SteamAPNG/releases) of SteamAPNG
 - Download the effects you want from [here](/Effects) and place them in an `Effects` folder next to the SteamAPNG.exe file.  
