@@ -30,8 +30,8 @@
         <StackPanel Grid.Column="0" Margin="0,30,0,0">
             <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Preview</Label>
             <Viewbox>
-                <Grid x:Name="previewBox"
-                      Width="600" Height="900" MinWidth="600" MinHeight="900"
+                <Grid x:Name="previewBox" PreviewMouseLeftButtonUp="previewBox_previewMouseLeftButtonUp"
+                      Width="600" Height="900" MinWidth="600" MinHeight="900" PreviewMouseWheel="previewBox_MouseWheel"
                       MaxWidth="600" MaxHeight="900"
                       HorizontalAlignment="Right"
                       Background="#34393E" ClipToBounds="True">
@@ -57,7 +57,7 @@
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="15,30,0,0" HorizontalAlignment="Left">
             <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Choose Effect</Label>
-            <ListBox x:Name="FXItems"
+            <ListBox x:Name="FXItems" SelectionChanged="FXItems_SelectionChanged"
                      Width="210" Height="452"
                      Margin="0,-1,0,0" Padding="0" Panel.ZIndex="4"
                      Background="#34393E" BorderBrush="Transparent" FontSize="14" Foreground="#FFDEDEDE" />
@@ -160,7 +160,7 @@
                         Value="1" />
             </DockPanel>
 
-            <Button x:Name="resetTransforms"
+            <Button x:Name="resetTransforms" Click="ResetTransforms_Click"
                     Width="100" Height="30"
                     Margin="0,10,30,0" HorizontalAlignment="Right"
                     DockPanel.Dock="Right" Foreground="#FFFFFF"
@@ -204,7 +204,7 @@
                            Text="{Binding ElementName=inputFPS, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} FPS}"
                            TextAlignment="Right" />
                 <Slider x:Name="inputFPS"
-                        VerticalAlignment="Center"
+                        VerticalAlignment="Center" ValueChanged="InputFPS_ValueChanged"
                         Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="60" Minimum="10"
                         TickFrequency="10"
                         Value="30" />
@@ -221,7 +221,7 @@
                     Margin="0,15,0,0">
             <Label Margin="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Save Location</Label>
             <DockPanel Width="520" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button x:Name="outputPathButton"
+                <Button x:Name="outputPathButton" Click="OutputPathButton_Click"
                         Width="85" Height="35"
                         Margin="-87,0,0,0" Panel.ZIndex="1"
                         Background="Transparent" DockPanel.Dock="Right" Foreground="#D2D2D2"

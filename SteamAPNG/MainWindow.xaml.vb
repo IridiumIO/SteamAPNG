@@ -36,7 +36,7 @@ Class MainWindow
     End Sub
 
 
-    Private Sub InputFPS_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double)) Handles inputFPS.ValueChanged
+    Private Sub InputFPS_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double))
         timer.Interval = TimeSpan.FromMilliseconds(1000 / inputFPS.Value)
     End Sub
 
@@ -126,10 +126,6 @@ Class MainWindow
         EffectOptionsBox.IsEnabled = True
         SaveOptionsBox.IsEnabled = True
 
-
-
-
-
     End Sub
 
 
@@ -181,7 +177,7 @@ Class MainWindow
 
 
 
-    Private Sub FXItems_SelectionChanged(sender As Object, e As SelectionChangedEventArgs) Handles FXItems.SelectionChanged
+    Private Sub FXItems_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
         timer.Stop()
         Dim finfo As IO.FileInfo = e.AddedItems(0)
         animationFrames = ReadZipToBytes(finfo.FullName)
@@ -190,7 +186,7 @@ Class MainWindow
     End Sub
 
 
-    Private Sub Imgbox1_PreviewMouseLeftButtonUp(sender As Object, e As MouseButtonEventArgs) Handles previewBox.PreviewMouseLeftButtonUp
+    Private Sub previewBox_previewMouseLeftButtonUp(sender As Object, e As MouseButtonEventArgs)
         Dim fsd As New Microsoft.Win32.OpenFileDialog()
         fsd.Filter = "PNG Images (*.png)|*.png|All files (*.*)|*.*"
         Console.WriteLine("hello")
@@ -204,7 +200,7 @@ Class MainWindow
 
     End Sub
 
-    Private Sub OutputPathButton_Click(sender As Object, e As RoutedEventArgs) Handles outputPathButton.Click
+    Private Sub OutputPathButton_Click(sender As Object, e As RoutedEventArgs)
         Dim fsd As New Microsoft.Win32.SaveFileDialog()
         fsd.Filter = "PNG Images (*.png)|*.png|All files (*.*)|*.*"
         fsd.DefaultExt = "png"
@@ -215,7 +211,7 @@ Class MainWindow
         End If
     End Sub
 
-    Private Sub ResetTransforms_Click(sender As Object, e As RoutedEventArgs) Handles resetTransforms.Click
+    Private Sub ResetTransforms_Click(sender As Object, e As RoutedEventArgs)
         positionH.Value = 0
         positionV.Value = 0
         scalex.Value = 1
@@ -223,7 +219,7 @@ Class MainWindow
         rotate.Value = 0
     End Sub
 
-    Private Sub MainWindow_MouseWheel(sender As Object, e As MouseWheelEventArgs) Handles previewBox.PreviewMouseWheel
+    Private Sub previewBox_MouseWheel(sender As Object, e As MouseWheelEventArgs)
 
         If Keyboard.Modifiers = ModifierKeys.Control Then
             If e.Delta > 0 Then
