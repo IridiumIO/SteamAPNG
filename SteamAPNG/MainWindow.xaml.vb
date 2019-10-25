@@ -151,7 +151,7 @@ Class MainWindow
 
         Dim tcs As New TaskCompletionSource(Of Integer)()
 
-        Dim inputArgs = $"-y -framerate {fps} -f image2pipe -i - -r {fps} -plays 0 -vf """"fps={fps},scale={fSize}:-1:flags=lanczos{paletteflags}"""" """"{outPath}"""""
+        Dim inputArgs = $"-y -framerate {fps} -f image2pipe -i - -r {fps} -plays 0 -vf ""fps={fps},scale={fSize}:-1:flags=lanczos{paletteflags}"" ""{outPath}"""
         Dim process As New Process
 
         With process.StartInfo
