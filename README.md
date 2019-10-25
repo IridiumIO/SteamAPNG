@@ -10,7 +10,7 @@
 ## Installation
 - Download the [latest release](https://github.com/IridiumIO/SteamAPNG/releases) of SteamAPNG
 - Download the effects you want from [here](/Effects) and place them in an `Effects` folder next to the SteamAPNG.exe file.  
-    *__Effects aren't included by default as the total download size would be ~250MB__*
+    *__Effects aren't included by default as the total download size would be ~85MB__*
 
 ## Usage
 ![](https://i.imgur.com/pykwynw.png)
