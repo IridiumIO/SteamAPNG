@@ -63,6 +63,7 @@
                      Width="210" Height="452"
                      Margin="0,-1,0,0" Padding="0" Panel.ZIndex="4"
                      Background="#34393E" BorderBrush="Transparent" FontSize="14" Foreground="#FFDEDEDE"
+                     ItemsSource="{Binding ElementName=MainWindow, Path=EffectsCollection}"
                      SelectionChanged="FXItems_SelectionChanged" />
         </StackPanel>
         <StackPanel x:Name="EffectOptionsBox"
@@ -209,8 +210,8 @@
                 <Slider x:Name="inputFPS"
                         VerticalAlignment="Center"
                         Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="60" Minimum="10"
-                        TickFrequency="10" 
-                        Value="{Binding ElementName=MainWindow, Path=EffectRenderer.FPS, FallbackValue=30}" />
+                        TickFrequency="10"
+                        Value="{Binding ElementName=MainWindow, Path=EffectRenderer.FPS, FallbackValue=30, UpdateSourceTrigger=PropertyChanged}" />
             </DockPanel>
 
         </StackPanel>

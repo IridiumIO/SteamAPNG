@@ -24,8 +24,7 @@ Public Class EffectRenderer : Implements INotifyPropertyChanged
 
     Sub New()
         AddHandler RenderTimer.Elapsed, AddressOf ElapsedT
-        FPS = 30
-
+        RenderTimer.Interval = 1000 / FPS
     End Sub
 
     Private Sub ElapsedT()
@@ -43,3 +42,4 @@ Public Class EffectRenderer : Implements INotifyPropertyChanged
 
 
 End Class
+
