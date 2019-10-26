@@ -209,8 +209,8 @@
                 <Slider x:Name="inputFPS"
                         VerticalAlignment="Center"
                         Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="60" Minimum="10"
-                        TickFrequency="10" ValueChanged="InputFPS_ValueChanged"
-                        Value="30" />
+                        TickFrequency="10" 
+                        Value="{Binding ElementName=MainWindow, Path=EffectRenderer.FPS, FallbackValue=30}" />
             </DockPanel>
 
         </StackPanel>

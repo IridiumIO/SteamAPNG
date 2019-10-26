@@ -25,18 +25,9 @@ Class MainWindow : Implements INotifyPropertyChanged
     End Sub
 
 
-    'Dim count = 0
-    'Private Sub ElapsedT()
-    'If count = animationFrames.Count Then count = 0
-    'imgbox1.Source = ImageFromBytes(animationFrames(count))
-
-    ' count += 1
-    'End Sub
-
 
     Private Sub InputFPS_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double))
-        'timer.Interval = TimeSpan.FromMilliseconds(1000 / inputFPS.Value)
-        EffectRenderer.SetFPS(inputFPS.Value)
+        EffectRenderer.FPS = inputFPS.Value
     End Sub
 
     Public Function Merge(bgImg, overlayFrame, counter) As Byte()

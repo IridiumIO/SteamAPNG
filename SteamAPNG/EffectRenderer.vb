@@ -1,20 +1,31 @@
 ﻿Imports System.ComponentModel
-Imports System.Windows.Threading
 
 Public Class EffectRenderer : Implements INotifyPropertyChanged
 
     Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
-    Dim RenderTimer As New DispatcherTimer(DispatcherPriority.Send)
+    ReadOnly RenderTimer As New Timers.Timer
 
     Public Property AnimationFrames As List(Of Byte())
-    Public Property FPS = 30
+
     Public Property FrameIndex = 0
-    Public Property CurrentFrame As BitmapImage = Nothing
+    Public Property CurrentFrame As BitmapImage
+
+    Private _FPS = 30
+    Public Property FPS
+        Get
+            Return _FPS
+        End Get
+        Set(value)
+            _FPS = value
+            RenderTimer.Interval = 1000 / value
+        End Set
+    End Property
 
     Sub New()
-        AddHandler RenderTimer.Tick, AddressOf ElapsedT
-        RenderTimer.Interval = TimeSpan.FromMilliseconds(1000 / FPS)
+        AddHandler RenderTimer.Elapsed, AddressOf ElapsedT
+        FPS = 30
+
     End Sub
 
     Private Sub ElapsedT()
@@ -30,8 +41,5 @@ Public Class EffectRenderer : Implements INotifyPropertyChanged
         RenderTimer.Start()
     End Sub
 
-    Public Sub SetFPS(inFPS As Integer)
-        RenderTimer.Interval = TimeSpan.FromMilliseconds(1000 / inFPS)
-    End Sub
 
 End Class
