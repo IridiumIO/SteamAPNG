@@ -1,21 +1,19 @@
-﻿Imports System.Windows.Threading
+﻿Imports System.ComponentModel
+Imports System.Windows.Threading
 
-Class MainWindow
+Class MainWindow : Implements INotifyPropertyChanged
 
-    Dim effectspath = IO.Path.Combine(CurDir, "Effects")
+    Public Event PropertyChanged As PropertyChangedEventHandler Implements INotifyPropertyChanged.PropertyChanged
 
-    Dim timer As New DispatcherTimer(DispatcherPriority.Send)
-    Dim animationFrames As New List(Of Byte())
-    Dim bg As BitmapImage
+    Property EffectRenderer As EffectRenderer = New EffectRenderer
+
+    Property baseImage As BitmapImage
 
     Private Sub Window_Loaded(sender As Object, e As RoutedEventArgs)
 
-        AddHandler timer.Tick, AddressOf ElapsedT
-        timer.Interval = TimeSpan.FromMilliseconds(33)
-        Dim dInfo = New IO.DirectoryInfo(effectspath)
-        If Not dInfo.Exists Then
-            dInfo.Create()
-        End If
+        Dim dInfo = New IO.DirectoryInfo(IO.Path.Combine(CurDir, "Effects"))
+        dInfo.Create()
+
         Dim files As List(Of IO.FileInfo) = dInfo.EnumerateFiles("*.fx", IO.SearchOption.AllDirectories).ToList
 
         files = files.OrderBy(Function(x) x.Name).ToList()
@@ -27,17 +25,18 @@ Class MainWindow
     End Sub
 
 
-    Dim count = 0
-    Private Sub ElapsedT()
-        If count = animationFrames.Count Then count = 0
-        imgbox1.Source = ImageFromBytes(animationFrames(count))
+    'Dim count = 0
+    'Private Sub ElapsedT()
+    'If count = animationFrames.Count Then count = 0
+    'imgbox1.Source = ImageFromBytes(animationFrames(count))
 
-        count += 1
-    End Sub
+    ' count += 1
+    'End Sub
 
 
     Private Sub InputFPS_ValueChanged(sender As Object, e As RoutedPropertyChangedEventArgs(Of Double))
-        timer.Interval = TimeSpan.FromMilliseconds(1000 / inputFPS.Value)
+        'timer.Interval = TimeSpan.FromMilliseconds(1000 / inputFPS.Value)
+        EffectRenderer.SetFPS(inputFPS.Value)
     End Sub
 
     Public Function Merge(bgImg, overlayFrame, counter) As Byte()
@@ -71,7 +70,7 @@ Class MainWindow
         Dim ms As New IO.MemoryStream()
         pngRend.Save(ms)
         ms.Seek(0, IO.SeekOrigin.Begin)
-        statusLbl.Text = $"Generating Frames...{counter}/{animationFrames.Count}"
+        statusLbl.Text = $"Generating Frames...{counter}/{EffectRenderer.AnimationFrames.Count}"
 
         Return ms.ToArray()
 
@@ -81,9 +80,9 @@ Class MainWindow
 
     Private Sub WriteImages()
         Dim i As Integer = 0
-        For Each img In animationFrames
+        For Each img In EffectRenderer.AnimationFrames
             Dim CombImg = Dispatcher.Invoke(Function()
-                                                Return Merge(bg, ImageFromBytes(img), i)
+                                                Return Merge(baseImage, ImageFromBytes(img), i)
                                             End Function)
             combinedImages.Add(CombImg)
             i += 1
@@ -178,11 +177,14 @@ Class MainWindow
 
 
     Private Sub FXItems_SelectionChanged(sender As Object, e As SelectionChangedEventArgs)
-        timer.Stop()
         Dim finfo As IO.FileInfo = e.AddedItems(0)
-        animationFrames = ReadZipToBytes(finfo.FullName)
-        count = 0
-        timer.Start()
+        EffectRenderer.LoadEffectSequence(finfo)
+
+        'Timer.Stop()
+
+        'animationFrames = ReadZipToBytes(finfo.FullName)
+        'count = 0
+        'Timer.Start()
     End Sub
 
 
@@ -191,8 +193,11 @@ Class MainWindow
         fsd.Filter = "PNG Images (*.png)|*.png|All files (*.*)|*.*"
         Console.WriteLine("hello")
         If fsd.ShowDialog = True Then
-            bg = New BitmapImage(New Uri(fsd.FileName))
-            bgImg.Source = bg
+            baseImage = New BitmapImage
+            baseImage.BeginInit()
+            baseImage.UriSource = New Uri(fsd.FileName)
+            baseImage.CacheOption = BitmapCacheOption.OnLoad
+            baseImage.EndInit()
         End If
 
         Dim rtloc = imgbox1.RenderTransform.Value

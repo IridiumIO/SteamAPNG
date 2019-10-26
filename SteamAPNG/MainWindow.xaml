@@ -1,7 +1,7 @@
 ﻿<fw:AcrylicWindow x:Class="MainWindow"
                   xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
                   xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:fw="clr-namespace:SourceChord.FluentWPF;assembly=FluentWPF" xmlns:local="clr-namespace:SteamAPNG" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-                  Title="APNG Generator"
+                  x:Name="MainWindow" Title="APNG Generator"
                   Width="980" Height="700" MinWidth="980" MinHeight="700"
                   MaxWidth="980" MaxHeight="700"
                   fw:AcrylicWindow.ExtendViewIntoTitleBar="True" fw:PointerTracker.Enabled="True" AcrylicWindowStyle="NoIcon" Background="#24292E"
@@ -30,17 +30,19 @@
         <StackPanel Grid.Column="0" Margin="0,30,0,0">
             <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Preview</Label>
             <Viewbox>
-                <Grid x:Name="previewBox" PreviewMouseLeftButtonUp="previewBox_previewMouseLeftButtonUp"
-                      Width="600" Height="900" MinWidth="600" MinHeight="900" PreviewMouseWheel="previewBox_MouseWheel"
+                <Grid x:Name="previewBox"
+                      Width="600" Height="900" MinWidth="600" MinHeight="900"
                       MaxWidth="600" MaxHeight="900"
                       HorizontalAlignment="Right"
-                      Background="#34393E" ClipToBounds="True">
+                      Background="#34393E" ClipToBounds="True" PreviewMouseLeftButtonUp="previewBox_previewMouseLeftButtonUp" PreviewMouseWheel="previewBox_MouseWheel">
                     <Label HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="26" Foreground="#FFDEDEDE">Click to choose image</Label>
 
                     <Image x:Name="imgbox1"
                            HorizontalAlignment="Left" VerticalAlignment="Top" Panel.ZIndex="5"
                            Opacity="{Binding ElementName=opacity, Path=Value, UpdateSourceTrigger=PropertyChanged}"
-                           RenderTransformOrigin="0.5,0.5" StretchDirection="DownOnly">
+                           RenderTransformOrigin="0.5,0.5"
+                           Source="{Binding ElementName=MainWindow, Path=EffectRenderer.CurrentFrame}"
+                           StretchDirection="DownOnly">
                         <Image.RenderTransform>
                             <TransformGroup>
                                 <ScaleTransform ScaleX="{Binding ElementName=scalex, Path=Value, UpdateSourceTrigger=PropertyChanged}" ScaleY="{Binding ElementName=scaley, Path=Value, UpdateSourceTrigger=PropertyChanged}" />
@@ -50,17 +52,18 @@
                             </TransformGroup>
                         </Image.RenderTransform>
                     </Image>
-                    <Image x:Name="bgImg" Width="600" Height="900" />
+                    <Image x:Name="bgImg" Width="600" Height="900" Source="{Binding ElementName=MainWindow, Path=baseImage}" />
                 </Grid>
             </Viewbox>
 
         </StackPanel>
         <StackPanel Grid.Column="1" Margin="15,30,0,0" HorizontalAlignment="Left">
             <Label FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Choose Effect</Label>
-            <ListBox x:Name="FXItems" SelectionChanged="FXItems_SelectionChanged"
+            <ListBox x:Name="FXItems"
                      Width="210" Height="452"
                      Margin="0,-1,0,0" Padding="0" Panel.ZIndex="4"
-                     Background="#34393E" BorderBrush="Transparent" FontSize="14" Foreground="#FFDEDEDE" />
+                     Background="#34393E" BorderBrush="Transparent" FontSize="14" Foreground="#FFDEDEDE"
+                     SelectionChanged="FXItems_SelectionChanged" />
         </StackPanel>
         <StackPanel x:Name="EffectOptionsBox"
                     Grid.Column="2"
@@ -160,10 +163,10 @@
                         Value="1" />
             </DockPanel>
 
-            <Button x:Name="resetTransforms" Click="ResetTransforms_Click"
+            <Button x:Name="resetTransforms"
                     Width="100" Height="30"
                     Margin="0,10,30,0" HorizontalAlignment="Right"
-                    DockPanel.Dock="Right" Foreground="#FFFFFF"
+                    Click="ResetTransforms_Click" DockPanel.Dock="Right" Foreground="#FFFFFF"
                     Style="{StaticResource ButtonRevealStyle}">
                 Reset
             </Button>
@@ -204,9 +207,9 @@
                            Text="{Binding ElementName=inputFPS, Path=Value, UpdateSourceTrigger=PropertyChanged, StringFormat={}{0} FPS}"
                            TextAlignment="Right" />
                 <Slider x:Name="inputFPS"
-                        VerticalAlignment="Center" ValueChanged="InputFPS_ValueChanged"
+                        VerticalAlignment="Center"
                         Foreground="#FFDEDEDE" IsSnapToTickEnabled="True" Maximum="60" Minimum="10"
-                        TickFrequency="10"
+                        TickFrequency="10" ValueChanged="InputFPS_ValueChanged"
                         Value="30" />
             </DockPanel>
 
@@ -221,10 +224,10 @@
                     Margin="0,15,0,0">
             <Label Margin="0,5,0,0" FontFamily="Segoe UI Semibold" FontSize="15" Foreground="#FFDEDEDE">Save Location</Label>
             <DockPanel Width="520" Margin="0,5,0,0" HorizontalAlignment="Left" VerticalAlignment="Top">
-                <Button x:Name="outputPathButton" Click="OutputPathButton_Click"
+                <Button x:Name="outputPathButton"
                         Width="85" Height="35"
                         Margin="-87,0,0,0" Panel.ZIndex="1"
-                        Background="Transparent" DockPanel.Dock="Right" Foreground="#D2D2D2"
+                        Background="Transparent" Click="OutputPathButton_Click" DockPanel.Dock="Right" Foreground="#D2D2D2"
                         Style="{StaticResource ButtonRevealStyle}">
                     Browse...
                 </Button>
