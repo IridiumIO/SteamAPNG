@@ -56,3 +56,10 @@ Module Utilities
 
 
 End Module
+
+
+Public Module PALETTE_FLAGS
+    Public GOOD = ",split[s0][s1];[s0]palettegen[p];[s1][p]paletteuse"
+    Public HIGH = ",split[s0][s1];[s0]palettegen=stats_mode=diff[p];[s1][p]paletteuse=dither=bayer:bayer_scale=5:diff_mode=rectangle"
+    Public BEST = ""
+End Module
